@@ -59,12 +59,19 @@ public class Game {
 
 
         // show questions
-       // boolean correctAnswer = true;
-       // do {
+        boolean correctAnswer = true;
+        int score = 0;
+        do {
 
             printQuestion(questions.get(currentQIndex));
-            chooseAnswer(questions.get(currentQIndex));
-      //  }while (correctAnswer = true);
+            correctAnswer = chooseAnswer(questions.get(currentQIndex));
+            currentQIndex++;
+            if (correctAnswer) {
+                score++;
+            }
+        } while ((correctAnswer) && currentQIndex < questions.size());
+        endGame();
+        System.out.print(score);
     }
 
 
@@ -77,22 +84,32 @@ public class Game {
 
     }
 
-    public void chooseAnswer (Question q){
+    public boolean chooseAnswer(Question q) {
         System.out.println("What is your answer? 1, 2, 3 or 4?");
-                Scanner sc = new Scanner(System.in);
-                int answer = sc.nextInt();
-                do {
-                    if (answer == 1){
-                        System.out.println("Correct answer! Let's move to the next question!");
-                        break;
-                    } else if (answer == 2 || answer == 3 || answer == 4){
-                        System.out.println("Wrong answer! Game over!");
-                        break;
-                    } else {
-                        System.out.println ("You have to choose between 1 and 4");
-                        answer = sc.nextInt();
-                    }
-                } while (!(answer == 1 || answer == 2 || answer == 3 || answer == 4));
+        Scanner sc = new Scanner(System.in);
+        int answer = sc.nextInt();
+        boolean isCorrect = true;
+        do {
+            if (answer == 1) {
+                System.out.println("Correct answer! Let's move to the next question!");
+                return true;
 
+            } else if (answer == 2 || answer == 3 || answer == 4) {
+                System.out.println("Wrong answer! Game over!");
+                isCorrect = false;
+                return false;
+
+            } else {
+                System.out.println("You have to choose between 1 and 4");
+                answer = sc.nextInt();
+            }
+        } while (!(answer == 1 || answer == 2 || answer == 3 || answer == 4));
+
+        return false;
+
+    }
+
+    public void endGame() {
+        System.out.print("This is the end of the game! Your score is ");
     }
 }
